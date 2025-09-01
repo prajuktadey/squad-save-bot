@@ -14,9 +14,9 @@ interface Goal {
 
 export const SavingsGoal = () => {
   const [goals, setGoals] = useState<Goal[]>([
-    { id: '1', title: 'concert tickets', target: 150, current: 45, emoji: '🎵' },
-    { id: '2', title: 'new airpods', target: 250, current: 180, emoji: '🎧' },
-    { id: '3', title: 'thrift haul', target: 80, current: 25, emoji: '👕' }
+    { id: '1', title: 'concert tickets', target: 1500, current: 450, emoji: '🎵' },
+    { id: '2', title: 'new airpods', target: 25000, current: 18000, emoji: '🎧' },
+    { id: '3', title: 'thrift haul', target: 800, current: 250, emoji: '👕' }
   ]);
   
   const [celebratingGoal, setCelebratingGoal] = useState<string | null>(null);
@@ -71,7 +71,7 @@ export const SavingsGoal = () => {
                   <div>
                     <h3 className="font-semibold">{goal.title}</h3>
                     <p className="text-sm text-muted-foreground">
-                      ${goal.current} / ${goal.target}
+                      ₹{goal.current} / ₹{goal.target}
                     </p>
                   </div>
                 </div>
@@ -102,25 +102,25 @@ export const SavingsGoal = () => {
                 <Button 
                   size="sm" 
                   variant="outline" 
-                  onClick={() => addMoney(goal.id, 10)}
+                  onClick={() => addMoney(goal.id, 100)}
                   className="flex-1"
                 >
-                  +$10
+                  +₹100
                 </Button>
                 <Button 
                   size="sm" 
                   variant="outline" 
-                  onClick={() => addMoney(goal.id, 25)}
+                  onClick={() => addMoney(goal.id, 250)}
                   className="flex-1"
                 >
-                  +$25
+                  +₹250
                 </Button>
                 <Button 
                   size="sm" 
-                  onClick={() => addMoney(goal.id, 50)}
+                  onClick={() => addMoney(goal.id, 500)}
                   className="flex-1"
                 >
-                  +$50
+                  +₹500
                 </Button>
               </div>
             </Card>

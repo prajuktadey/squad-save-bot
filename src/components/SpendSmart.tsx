@@ -8,7 +8,7 @@ import { PixelMascot } from './PixelMascot';
 export const SpendSmart = () => {
   const [itemName, setItemName] = useState('');
   const [itemPrice, setItemPrice] = useState('');
-  const [hourlyWage, setHourlyWage] = useState('15'); // default min wage
+  const [hourlyWage, setHourlyWage] = useState('150'); // typical hourly wage in INR
   const [calculation, setCalculation] = useState<{
     hours: number;
     days: number;
@@ -58,21 +58,21 @@ export const SpendSmart = () => {
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="price">price ($)</Label>
+            <Label htmlFor="price">price (₹)</Label>
             <Input
               id="price"
               type="number"
-              placeholder="0.00"
+              placeholder="0"
               value={itemPrice}
               onChange={(e) => setItemPrice(e.target.value)}
             />
           </div>
           <div>
-            <Label htmlFor="wage">your hourly wage ($)</Label>
+            <Label htmlFor="wage">your hourly wage (₹)</Label>
             <Input
               id="wage"
               type="number"
-              placeholder="15.00"
+              placeholder="150"
               value={hourlyWage}
               onChange={(e) => setHourlyWage(e.target.value)}
             />

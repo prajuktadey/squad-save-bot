@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { PixelMascot } from '@/components/PixelMascot';
-import { SavingsGoal } from '@/components/SavingsGoal';
+import SavingsGoalEnhanced from '@/components/SavingsGoalEnhanced';
 import { SpendSmart } from '@/components/SpendSmart';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -73,7 +73,7 @@ const Index = () => {
         <div className="max-w-2xl mx-auto">
           {activeTab === 'goals' && (
             <div className="animate-slide-up">
-              <SavingsGoal />
+              <SavingsGoalEnhanced />
             </div>
           )}
           

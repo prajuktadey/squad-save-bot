@@ -4,9 +4,15 @@ import SavingsGoalEnhanced from '@/components/SavingsGoalEnhanced';
 import { SpendSmart } from '@/components/SpendSmart';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { useGoals } from '@/hooks/useGoals';
+import { useTheme } from '@/hooks/useTheme';
+import UserStats from '@/components/UserStats';
+import { Moon, Sun } from 'lucide-react';
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState<'goals' | 'spend' | 'split'>('goals');
+  const { goals } = useGoals();
+  const { isDark, toggleTheme } = useTheme();
 
   return (
     <div className="min-h-screen bg-background">
@@ -21,8 +27,14 @@ const Index = () => {
                 <p className="text-sm text-muted-foreground">your gen z finance bestie</p>
               </div>
             </div>
-            <Button variant="outline" size="sm">
-              ⚡ 47 streak
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={toggleTheme}
+              className="gap-2"
+            >
+              {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              {isDark ? 'light' : 'dark'}
             </Button>
           </div>
         </div>
@@ -103,20 +115,7 @@ const Index = () => {
 
         {/* Quick Stats */}
         <div className="max-w-2xl mx-auto mt-8">
-          <div className="grid grid-cols-3 gap-4">
-            <Card className="p-4 text-center">
-              <div className="text-2xl font-bold text-success">₹2,550</div>
-              <div className="text-xs text-muted-foreground">saved this month</div>
-            </Card>
-            <Card className="p-4 text-center">
-              <div className="text-2xl font-bold">🔥 47</div>
-              <div className="text-xs text-muted-foreground">day streak</div>
-            </Card>
-            <Card className="p-4 text-center">
-              <div className="text-2xl font-bold text-celebration">2/3</div>
-              <div className="text-xs text-muted-foreground">goals completed</div>
-            </Card>
-          </div>
+          <UserStats goals={goals} />
         </div>
       </main>
 

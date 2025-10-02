@@ -13,7 +13,7 @@ interface BillItem {
   name: string;
   price: number;
   quantity: number;
-  assignedTo?: string;
+  assignedTo: string[]; // Array of person IDs
 }
 
 interface Person {
@@ -114,6 +114,7 @@ export const BillSplit = () => {
         name: item.name || 'unknown item',
         price: parseFloat(item.price) || 0,
         quantity: parseInt(item.quantity) || 1,
+        assignedTo: [],
       }));
 
       setItems(extractedItems);
@@ -153,10 +154,11 @@ export const BillSplit = () => {
 
   const removePerson = (personId: string) => {
     setPeople(people.filter(p => p.id !== personId));
-    // Unassign items from this person
-    setItems(items.map(item => 
-      item.assignedTo === personId ? { ...item, assignedTo: undefined } : item
-    ));
+    // Remove person from all items
+    setItems(items.map(item => ({
+      ...item,
+      assignedTo: item.assignedTo.filter(id => id !== personId)
+    })));
   };
 
   const handleDragStart = (itemId: string) => {
@@ -170,23 +172,50 @@ export const BillSplit = () => {
   const handleDrop = (personId: string) => {
     if (!draggedItem) return;
     
-    setItems(items.map(item =>
-      item.id === draggedItem ? { ...item, assignedTo: personId } : item
-    ));
+    setItems(items.map(item => {
+      if (item.id === draggedItem) {
+        // Add person if not already assigned
+        if (!item.assignedTo.includes(personId)) {
+          return { ...item, assignedTo: [...item.assignedTo, personId] };
+        }
+      }
+      return item;
+    }));
     
     setDraggedItem(null);
   };
 
-  const unassignItem = (itemId: string) => {
+  const togglePersonForItem = (itemId: string, personId: string) => {
+    setItems(items.map(item => {
+      if (item.id === itemId) {
+        if (item.assignedTo.includes(personId)) {
+          // Remove person
+          return { ...item, assignedTo: item.assignedTo.filter(id => id !== personId) };
+        } else {
+          // Add person
+          return { ...item, assignedTo: [...item.assignedTo, personId] };
+        }
+      }
+      return item;
+    }));
+  };
+
+  const unassignPersonFromItem = (itemId: string, personId: string) => {
     setItems(items.map(item =>
-      item.id === itemId ? { ...item, assignedTo: undefined } : item
+      item.id === itemId 
+        ? { ...item, assignedTo: item.assignedTo.filter(id => id !== personId) }
+        : item
     ));
   };
 
   const calculateTotal = (personId: string) => {
     return items
-      .filter(item => item.assignedTo === personId)
-      .reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      .filter(item => item.assignedTo.includes(personId))
+      .reduce((sum, item) => {
+        const splitCount = item.assignedTo.length;
+        const splitAmount = (item.price * item.quantity) / splitCount;
+        return sum + splitAmount;
+      }, 0);
   };
 
   const resetBill = () => {
@@ -284,7 +313,7 @@ export const BillSplit = () => {
               <div className="space-y-2">
                 <p className="text-sm font-medium">unassigned items</p>
                 <div className="space-y-2 p-3 bg-muted rounded-lg min-h-[60px]">
-                  {items.filter(item => !item.assignedTo).map(item => (
+                  {items.filter(item => item.assignedTo.length === 0).map(item => (
                     <div
                       key={item.id}
                       draggable
@@ -299,7 +328,7 @@ export const BillSplit = () => {
                       </span>
                     </div>
                   ))}
-                  {items.filter(item => !item.assignedTo).length === 0 && (
+                  {items.filter(item => item.assignedTo.length === 0).length === 0 && (
                     <p className="text-sm text-muted-foreground text-center py-2">
                       all items assigned! 🎉
                     </p>
@@ -309,7 +338,7 @@ export const BillSplit = () => {
 
               {/* People with their items */}
               {people.map(person => {
-                const personItems = items.filter(item => item.assignedTo === person.id);
+                const personItems = items.filter(item => item.assignedTo.includes(person.id));
                 const total = calculateTotal(person.id);
 
                 return (
@@ -334,32 +363,43 @@ export const BillSplit = () => {
                     </div>
                     
                     <div className="space-y-1 min-h-[40px]">
-                      {personItems.map(item => (
-                        <div
-                          key={item.id}
-                          className="flex items-center justify-between p-2 bg-muted rounded text-sm"
-                        >
-                          <span>
-                            {item.quantity}x {item.name}
-                          </span>
-                          <div className="flex items-center gap-2">
-                            <span className="font-medium">
-                              ₹{(item.price * item.quantity).toFixed(2)}
+                      {personItems.map(item => {
+                        const splitCount = item.assignedTo.length;
+                        const splitAmount = (item.price * item.quantity) / splitCount;
+                        const isShared = splitCount > 1;
+
+                        return (
+                          <div
+                            key={item.id}
+                            className="flex items-center justify-between p-2 bg-muted rounded text-sm"
+                          >
+                            <span className="flex items-center gap-2">
+                              {item.quantity}x {item.name}
+                              {isShared && (
+                                <span className="text-xs text-muted-foreground">
+                                  (split {splitCount} ways)
+                                </span>
+                              )}
                             </span>
-                            <Button
-                              size="sm"
-                              variant="ghost"
-                              onClick={() => unassignItem(item.id)}
-                              className="h-6 w-6 p-0"
-                            >
-                              <X className="h-3 w-3" />
-                            </Button>
+                            <div className="flex items-center gap-2">
+                              <span className="font-medium">
+                                ₹{splitAmount.toFixed(2)}
+                              </span>
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                onClick={() => unassignPersonFromItem(item.id, person.id)}
+                                className="h-6 w-6 p-0"
+                              >
+                                <X className="h-3 w-3" />
+                              </Button>
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                       {personItems.length === 0 && (
                         <p className="text-xs text-muted-foreground text-center py-2">
-                          drag items here
+                          drag items here or click items to share
                         </p>
                       )}
                     </div>

@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { PixelMascot } from '@/components/PixelMascot';
 import SavingsGoalEnhanced from '@/components/SavingsGoalEnhanced';
 import { SpendSmart } from '@/components/SpendSmart';
+import { BillSplit } from '@/components/BillSplit';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import { useGoals } from '@/hooks/useGoals';
 import { useTheme } from '@/hooks/useTheme';
 import UserStats from '@/components/UserStats';
@@ -97,18 +97,7 @@ const Index = () => {
           
           {activeTab === 'split' && (
             <div className="animate-slide-up">
-              <Card className="p-8 text-center space-y-4">
-                <div className="flex justify-center">
-                  <PixelMascot size="lg" isAnimating={true} />
-                </div>
-                <h2 className="text-xl font-bold">bill split coming soon!</h2>
-                <p className="text-muted-foreground">
-                  we're cooking up something fire for splitting bills with your squad 🔥
-                </p>
-                <Button variant="outline">
-                  get notified when it drops ✨
-                </Button>
-              </Card>
+              <BillSplit />
             </div>
           )}
         </div>

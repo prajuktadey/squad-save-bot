@@ -1,1 +1,4 @@
 project_id = "ungkweuskpnqqxjclpwj"
+
+[functions.extract-bill-items]
+verify_jwt = true

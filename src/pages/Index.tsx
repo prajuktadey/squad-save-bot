@@ -115,10 +115,7 @@ const Index = () => {
             <PixelMascot size="sm" />
           </div>
           <p className="text-sm text-muted-foreground">
-            made with love for gen z by gen z
-          </p>
-          <p className="text-xs text-muted-foreground mt-1">
-            remember bestie: you're already winning
+            made with love by prajukta
           </p>
         </div>
       </footer>

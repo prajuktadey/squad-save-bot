@@ -32,14 +32,24 @@ serve(async (req) => {
         messages: [
           {
             role: 'system',
-            content: 'You are a bill/receipt parser. Extract all items, their prices, and quantities from the bill image. Return a JSON array of items with format: [{name: string, price: number, quantity: number}]. Only return valid JSON, no other text.'
+            content: `You are a precise bill/receipt parser. Extract ALL items from the receipt with their details.
+
+CRITICAL RULES:
+- Extract the EXACT unit price for each item (price per single item)
+- If an item shows "2 x ₹50 = ₹100", extract: name, price: 50, quantity: 2
+- If no quantity is shown, assume quantity: 1
+- Do NOT include subtotals, taxes, service charges, tips, or total amounts as items
+- Only extract actual food/product items from the bill
+- Return ONLY a valid JSON array, no markdown, no extra text
+
+Format: [{"name": "item name", "price": 12.50, "quantity": 1}]`
           },
           {
             role: 'user',
             content: [
               {
                 type: 'text',
-                text: 'Extract all items from this bill/receipt with their names, prices, and quantities. Return only a JSON array of items.'
+                text: 'Extract all food/product items from this receipt. For each item, provide the name, unit price (price per single item), and quantity. Return only the JSON array.'
               },
               {
                 type: 'image_url',

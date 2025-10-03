@@ -309,30 +309,35 @@ export const BillSplit = () => {
             <div className="space-y-4">
               <Label>drag items to people</Label>
               
-              {/* Unassigned Items */}
+              {/* All Items - Drag to assign */}
               <div className="space-y-2">
-                <p className="text-sm font-medium">unassigned items</p>
+                <p className="text-sm font-medium">all items (drag to people)</p>
                 <div className="space-y-2 p-3 bg-muted rounded-lg min-h-[60px]">
-                  {items.filter(item => item.assignedTo.length === 0).map(item => (
-                    <div
-                      key={item.id}
-                      draggable
-                      onDragStart={() => handleDragStart(item.id)}
-                      className="flex items-center justify-between p-2 bg-background rounded border border-border cursor-move hover:border-primary transition-colors"
-                    >
-                      <span className="text-sm">
-                        {item.quantity}x {item.name}
-                      </span>
-                      <span className="text-sm font-medium">
-                        ₹{(item.price * item.quantity).toFixed(2)}
-                      </span>
-                    </div>
-                  ))}
-                  {items.filter(item => item.assignedTo.length === 0).length === 0 && (
-                    <p className="text-sm text-muted-foreground text-center py-2">
-                      all items assigned! 🎉
-                    </p>
-                  )}
+                  {items.map(item => {
+                    const isAssigned = item.assignedTo.length > 0;
+                    return (
+                      <div
+                        key={item.id}
+                        draggable
+                        onDragStart={() => handleDragStart(item.id)}
+                        className={`flex items-center justify-between p-2 bg-background rounded border cursor-move hover:border-primary transition-colors ${
+                          isAssigned ? 'border-primary/50 opacity-75' : 'border-border'
+                        }`}
+                      >
+                        <span className="text-sm">
+                          {item.quantity}x {item.name}
+                          {isAssigned && (
+                            <span className="ml-2 text-xs text-primary">
+                              (assigned to {item.assignedTo.length})
+                            </span>
+                          )}
+                        </span>
+                        <span className="text-sm font-medium">
+                          ₹{(item.price * item.quantity).toFixed(2)}
+                        </span>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 

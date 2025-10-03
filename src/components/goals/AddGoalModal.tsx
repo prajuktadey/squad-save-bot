@@ -10,7 +10,7 @@ interface AddGoalModalProps {
   loading?: boolean;
 }
 
-const EMOJI_OPTIONS = ['🎯', '💰', '🏠', '🚗', '✈️', '🎮', '📱', '👟', '🎧', '💻'];
+const EMOJI_OPTIONS = ['🎯', '💰', '🏠', '🚗', '✈', '🎮', '📱', '👟', '🎧', '💻'];
 
 const AddGoalModal = ({ onAddGoal, loading = false }: AddGoalModalProps) => {
   const [open, setOpen] = useState(false);
@@ -44,7 +44,7 @@ const AddGoalModal = ({ onAddGoal, loading = false }: AddGoalModalProps) => {
       <DialogTrigger asChild>
         <Button className="w-full animate-bounce-party">
           <Plus className="w-4 h-4 mr-2" />
-          add new goal ✨
+          add new goal
         </Button>
       </DialogTrigger>
       
@@ -125,12 +125,12 @@ const AddGoalModal = ({ onAddGoal, loading = false }: AddGoalModalProps) => {
           >
             {loading ? (
               <div className="flex items-center gap-2">
-                <div className="animate-pixel-pulse">⌛</div>
+                <div className="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full" />
                 creating goal...
               </div>
             ) : (
               <div className="flex items-center gap-2">
-                ✨ create goal
+                create goal
               </div>
             )}
           </Button>
@@ -138,7 +138,6 @@ const AddGoalModal = ({ onAddGoal, loading = false }: AddGoalModalProps) => {
 
         {/* Motivational Message */}
         <div className="text-center text-sm text-muted-foreground">
-          <div className="animate-pixel-pulse mb-1">🎯</div>
           <p>every big goal starts with a small step bestie!</p>
         </div>
       </DialogContent>

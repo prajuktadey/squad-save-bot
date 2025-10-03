@@ -44,12 +44,12 @@ const SavingsGoalEnhanced = () => {
     try {
       await supabase.auth.signOut();
       toast({
-        title: "signed out! 👋",
+        title: "signed out",
         description: "see you later bestie!",
       });
     } catch (error: any) {
       toast({
-        title: "couldn't sign out 😔",
+        title: "couldn't sign out",
         description: error.message,
         variant: "destructive"
       });
@@ -61,11 +61,11 @@ const SavingsGoalEnhanced = () => {
   };
 
   const getMotivationalMessage = (percentage: number): string => {
-    if (percentage >= 100) return "goal crushed! 🎉 you're a savings legend!";
-    if (percentage >= 75) return "so close bestie! 🔥 the finish line is right there!";
-    if (percentage >= 50) return "halfway there! 💪 keep that momentum going!";
-    if (percentage >= 25) return "making moves! 📈 small steps, big dreams!";
-    return "every rupee counts! ✨ you got this bestie!";
+    if (percentage >= 100) return "goal crushed! you're a savings legend";
+    if (percentage >= 75) return "so close bestie! the finish line is right there";
+    if (percentage >= 50) return "halfway there! keep that momentum going";
+    if (percentage >= 25) return "making moves! small steps, big dreams";
+    return "every rupee counts! you got this bestie";
   };
 
   if (loading) {
@@ -84,7 +84,7 @@ const SavingsGoalEnhanced = () => {
       {/* Header with Sign Out */}
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-bold mb-2">your savings squad 💰</h2>
+          <h2 className="text-2xl font-bold mb-2">your savings squad</h2>
           <p className="text-muted-foreground">
             {goals.length === 0 
               ? "time to set your first goal bestie!" 
@@ -164,14 +164,14 @@ const SavingsGoalEnhanced = () => {
                   disabled={!addingMoney[goal.id] || parseFloat(addingMoney[goal.id] || '0') <= 0}
                   className="whitespace-nowrap"
                 >
-                  add money ✨
+                  add money
                 </Button>
               </div>
             )}
             
             {isCompleted && (
               <div className="text-center">
-                <div className="text-success font-medium mb-2">🎉 goal completed! 🎉</div>
+                <div className="text-success font-medium mb-2">goal completed!</div>
                 <p className="text-sm text-muted-foreground">
                   time to celebrate and set a new challenge!
                 </p>

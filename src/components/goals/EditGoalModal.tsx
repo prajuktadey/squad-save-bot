@@ -21,7 +21,7 @@ interface EditGoalModalProps {
   loading?: boolean;
 }
 
-const EMOJI_OPTIONS = ['🎯', '💰', '🏠', '🚗', '✈️', '🎮', '📱', '👟', '🎧', '💻'];
+const EMOJI_OPTIONS = ['🎯', '💰', '🏠', '🚗', '✈', '🎮', '📱', '👟', '🎧', '💻'];
 
 const EditGoalModal = ({ goal, onUpdateGoal, onDeleteGoal, loading = false }: EditGoalModalProps) => {
   const [open, setOpen] = useState(false);
@@ -54,7 +54,7 @@ const EditGoalModal = ({ goal, onUpdateGoal, onDeleteGoal, loading = false }: Ed
   };
 
   const handleDelete = () => {
-    if (window.confirm('are you sure you want to delete this goal bestie? 🥺')) {
+    if (window.confirm('are you sure you want to delete this goal bestie?')) {
       onDeleteGoal(goal.id);
       setOpen(false);
     }
@@ -146,12 +146,12 @@ const EditGoalModal = ({ goal, onUpdateGoal, onDeleteGoal, loading = false }: Ed
             >
               {loading ? (
                 <div className="flex items-center gap-2">
-                  <div className="animate-pixel-pulse">⌛</div>
+                  <div className="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full" />
                   updating...
                 </div>
               ) : (
                 <div className="flex items-center gap-2">
-                  ✨ update goal
+                  update goal
                 </div>
               )}
             </Button>

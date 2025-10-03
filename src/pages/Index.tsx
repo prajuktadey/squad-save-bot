@@ -53,7 +53,7 @@ const Index = () => {
                     : 'hover:bg-background/50'
                 }`}
               >
-                💰 goals
+                goals
               </button>
               <button
                 onClick={() => setActiveTab('spend')}
@@ -63,7 +63,7 @@ const Index = () => {
                     : 'hover:bg-background/50'
                 }`}
               >
-                🧮 spend smart
+                spend smart
               </button>
               <button
                 onClick={() => setActiveTab('split')}
@@ -73,7 +73,7 @@ const Index = () => {
                     : 'hover:bg-background/50'
                 }`}
               >
-                💸 bill split
+                bill split
               </button>
             </div>
           </div>
@@ -115,10 +115,10 @@ const Index = () => {
             <PixelMascot size="sm" />
           </div>
           <p className="text-sm text-muted-foreground">
-            made with 💜 for gen z by gen z
+            made with love for gen z by gen z
           </p>
           <p className="text-xs text-muted-foreground mt-1">
-            remember bestie: you're already winning ✨
+            remember bestie: you're already winning
           </p>
         </div>
       </footer>

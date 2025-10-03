@@ -41,7 +41,7 @@ export const BillSplit = () => {
     if (!file.type.startsWith('image/')) {
       toast({
         title: 'oops!',
-        description: 'please upload an image file bestie 📸',
+        description: 'please upload an image file',
         variant: 'destructive',
       });
       return;
@@ -81,7 +81,7 @@ export const BillSplit = () => {
       setBillImage(publicUrl);
       
       toast({
-        title: 'yass! ✨',
+        title: 'success',
         description: 'bill uploaded! now extracting items...',
       });
 
@@ -120,7 +120,7 @@ export const BillSplit = () => {
       setItems(extractedItems);
       
       toast({
-        title: 'extraction complete! 🎉',
+        title: 'extraction complete',
         description: `found ${extractedItems.length} items. add people to split the bill!`,
       });
     } catch (error) {
@@ -147,7 +147,7 @@ export const BillSplit = () => {
     setNewPersonName('');
     
     toast({
-      title: 'person added! 👤',
+      title: 'person added',
       description: `${newPerson.name} is in the squad`,
     });
   };
@@ -228,7 +228,7 @@ export const BillSplit = () => {
   return (
     <Card className="p-6 space-y-6">
       <div className="text-center space-y-2">
-        <h2 className="text-xl font-bold">bill split wizard 💸</h2>
+        <h2 className="text-xl font-bold">bill split wizard</h2>
         <p className="text-sm text-muted-foreground">
           upload a bill, add your squad, and split it fairly
         </p>
@@ -284,7 +284,7 @@ export const BillSplit = () => {
           {isExtracting && (
             <div className="flex items-center justify-center gap-3 p-4 bg-muted rounded-lg">
               <Loader2 className="h-5 w-5 animate-spin" />
-              <p className="text-sm">extracting items with ai magic... ✨</p>
+              <p className="text-sm">extracting items with ai...</p>
             </div>
           )}
 

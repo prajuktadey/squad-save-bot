@@ -61,7 +61,7 @@ const AuthPage = () => {
         if (error) throw error;
         
         toast({
-          title: "welcome back bestie! ✨",
+          title: "welcome back bestie",
           description: "you're now logged in",
         });
       } else {
@@ -78,12 +78,12 @@ const AuthPage = () => {
         if (error) throw error;
         
         toast({
-          title: "squad sign up complete! 🎉", 
+          title: "squad sign up complete", 
           description: "check your email to verify your account",
         });
       }
     } catch (error: any) {
-      let message = "something went wrong bestie 😔";
+      let message = "something went wrong bestie";
       
       if (error.message.includes('Invalid login credentials')) {
         message = "wrong email or password bestie";
@@ -177,24 +177,19 @@ const AuthPage = () => {
           >
             {loading ? (
               <div className="flex items-center gap-2">
-                <div className="animate-pixel-pulse">⌛</div>
+                <div className="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full" />
                 {isLogin ? "logging in..." : "signing up..."}
               </div>
             ) : (
               <div className="flex items-center gap-2">
-                {isLogin ? "🔑 login" : "✨ join squad"}
+                {isLogin ? "login" : "join squad"}
               </div>
             )}
           </Button>
         </form>
 
         {/* Pixel Character Messages */}
-        <div className="text-center text-sm text-muted-foreground space-y-2">
-          <div className="flex justify-center gap-2 animate-pixel-pulse">
-            <span>🎯</span>
-            <span>💰</span>
-            <span>📱</span>
-          </div>
+        <div className="text-center text-sm text-muted-foreground">
           <p>
             {isLogin 
               ? "ready to crush those savings goals?" 

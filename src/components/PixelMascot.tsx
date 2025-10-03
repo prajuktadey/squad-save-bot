@@ -8,11 +8,11 @@ interface PixelMascotProps {
 }
 
 const genZMessages = [
-  "hey bestie, ready to save? 💰",
-  "money moves incoming! 🔥", 
-  "you're about to slay those goals ✨",
-  "no cap, let's get this bag 💪",
-  "savings era activated 🌟"
+  "hey bestie, ready to save?",
+  "money moves incoming", 
+  "you're about to slay those goals",
+  "no cap, let's get this bag",
+  "savings era activated"
 ];
 
 export const PixelMascot = ({ 

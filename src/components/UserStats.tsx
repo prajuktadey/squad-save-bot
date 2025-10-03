@@ -60,7 +60,7 @@ const UserStats = ({ goals }: UserStatsProps) => {
       </Card>
       
       <Card className="p-4 text-center">
-        <div className="text-2xl font-bold">🔥 {stats.streak}</div>
+        <div className="text-2xl font-bold">{stats.streak}</div>
         <div className="text-xs text-muted-foreground">day streak</div>
       </Card>
       

@@ -44,18 +44,18 @@ export const SavingsGoal = () => {
   };
 
   const getMotivationalMessage = (percentage: number) => {
-    if (percentage === 100) return "slay queen! goal crushed! 👑";
-    if (percentage >= 75) return "almost there bestie! 🔥";
-    if (percentage >= 50) return "halfway there, no cap! 💪";
-    if (percentage >= 25) return "good start, keep going! ✨";
-    return "let's get this bag! 💰";
+    if (percentage === 100) return "slay queen! goal crushed";
+    if (percentage >= 75) return "almost there bestie";
+    if (percentage >= 50) return "halfway there, no cap";
+    if (percentage >= 25) return "good start, keep going";
+    return "let's get this bag";
   };
 
   return (
     <div className="space-y-6">
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-bold">your savings goals</h2>
-        <p className="text-muted-foreground">track your progress and slay those targets ✨</p>
+        <p className="text-muted-foreground">track your progress and slay those targets</p>
       </div>
 
       <div className="grid gap-4">
@@ -79,7 +79,7 @@ export const SavingsGoal = () => {
                 {isCelebrating && (
                   <PixelMascot 
                     isAnimating={true}
-                    message="goal complete! you did that! 🎉"
+                    message="goal complete! you did that"
                     size="sm"
                   />
                 )}

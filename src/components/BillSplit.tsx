@@ -245,10 +245,10 @@ export const BillSplit = () => {
               <div>
                 <Upload className="mx-auto h-8 w-8 mb-2 text-muted-foreground" />
                 <p className="font-medium">
-                  {isUploading ? 'uploading...' : 'click to upload bill'}
+                  {isUploading ? 'uploading...' : 'take photo or upload bill'}
                 </p>
                 <p className="text-sm text-muted-foreground mt-1">
-                  jpg, png, or webp (max 5mb)
+                  camera or files • jpg, png, webp (max 5mb)
                 </p>
               </div>
             </div>
@@ -257,6 +257,7 @@ export const BillSplit = () => {
             ref={fileInputRef}
             type="file"
             accept="image/*"
+            capture="environment"
             onChange={handleFileSelect}
             className="hidden"
           />

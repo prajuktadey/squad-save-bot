@@ -32,6 +32,8 @@ export const BillSplit = () => {
   const [people, setPeople] = useState<Person[]>([]);
   const [newPersonName, setNewPersonName] = useState('');
   const [draggedItem, setDraggedItem] = useState<string | null>(null);
+  const [selectedItem, setSelectedItem] = useState<string | null>(null);
+  const [touchStartY, setTouchStartY] = useState<number>(0);
 
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -185,6 +187,45 @@ export const BillSplit = () => {
     setDraggedItem(null);
   };
 
+  const handleTouchStart = (e: React.TouchEvent, itemId: string) => {
+    setDraggedItem(itemId);
+    setTouchStartY(e.touches[0].clientY);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent, personId: string) => {
+    if (!draggedItem) return;
+    handleDrop(personId);
+  };
+
+  const handleItemClick = (itemId: string) => {
+    if (selectedItem === itemId) {
+      setSelectedItem(null);
+    } else {
+      setSelectedItem(itemId);
+      toast({
+        title: 'item selected',
+        description: 'tap a person to assign this item',
+      });
+    }
+  };
+
+  const handlePersonClick = (personId: string) => {
+    if (!selectedItem) return;
+    
+    togglePersonForItem(selectedItem, personId);
+    setSelectedItem(null);
+    
+    const item = items.find(i => i.id === selectedItem);
+    const person = people.find(p => p.id === personId);
+    
+    if (item && person) {
+      toast({
+        title: 'item assigned',
+        description: `${item.name} → ${person.name}`,
+      });
+    }
+  };
+
   const togglePersonForItem = (itemId: string, personId: string) => {
     setItems(items.map(item => {
       if (item.id === itemId) {
@@ -310,19 +351,26 @@ export const BillSplit = () => {
             <div className="space-y-4">
               <Label>drag items to people</Label>
               
-              {/* All Items - Drag to assign */}
+              {/* All Items - Drag or tap to assign */}
               <div className="space-y-2">
-                <p className="text-sm font-medium">all items (drag to people)</p>
+                <p className="text-sm font-medium">all items (drag or tap to assign)</p>
                 <div className="space-y-2 p-3 bg-muted rounded-lg min-h-[60px]">
                   {items.map(item => {
                     const isAssigned = item.assignedTo.length > 0;
+                    const isSelected = selectedItem === item.id;
                     return (
                       <div
                         key={item.id}
                         draggable
                         onDragStart={() => handleDragStart(item.id)}
-                        className={`flex items-center justify-between p-2 bg-background rounded border cursor-move hover:border-primary transition-colors ${
-                          isAssigned ? 'border-primary/50 opacity-75' : 'border-border'
+                        onTouchStart={(e) => handleTouchStart(e, item.id)}
+                        onClick={() => handleItemClick(item.id)}
+                        className={`flex items-center justify-between p-2 bg-background rounded border cursor-pointer hover:border-primary transition-colors touch-manipulation ${
+                          isSelected 
+                            ? 'border-primary ring-2 ring-primary/50' 
+                            : isAssigned 
+                            ? 'border-primary/50 opacity-75' 
+                            : 'border-border'
                         }`}
                       >
                         <span className="text-sm">
@@ -330,6 +378,11 @@ export const BillSplit = () => {
                           {isAssigned && (
                             <span className="ml-2 text-xs text-primary">
                               (assigned to {item.assignedTo.length})
+                            </span>
+                          )}
+                          {isSelected && (
+                            <span className="ml-2 text-xs text-primary font-medium">
+                              tap person →
                             </span>
                           )}
                         </span>
@@ -352,7 +405,11 @@ export const BillSplit = () => {
                     key={person.id}
                     onDragOver={handleDragOver}
                     onDrop={() => handleDrop(person.id)}
-                    className="space-y-2 p-3 bg-card border border-border rounded-lg"
+                    onTouchEnd={(e) => handleTouchEnd(e, person.id)}
+                    onClick={() => handlePersonClick(person.id)}
+                    className={`space-y-2 p-3 bg-card border border-border rounded-lg transition-colors touch-manipulation ${
+                      selectedItem ? 'cursor-pointer hover:border-primary' : ''
+                    }`}
                   >
                     <div className="flex items-center justify-between">
                       <p className="font-medium">{person.name}</p>
@@ -405,7 +462,7 @@ export const BillSplit = () => {
                       })}
                       {personItems.length === 0 && (
                         <p className="text-xs text-muted-foreground text-center py-2">
-                          drag items here or click items to share
+                          {selectedItem ? 'tap here to assign selected item' : 'drag or tap items to assign'}
                         </p>
                       )}
                     </div>

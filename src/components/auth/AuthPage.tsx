@@ -11,8 +11,10 @@ import { User, Session } from '@supabase/supabase-js';
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [isForgotPassword, setIsForgotPassword] = useState(false);
+  const [isResettingPassword, setIsResettingPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
@@ -26,8 +28,14 @@ const AuthPage = () => {
         setSession(session);
         setUser(session?.user ?? null);
         
-        // Redirect authenticated users to main page
-        if (session?.user) {
+        // Check if this is a password recovery event
+        if (event === 'PASSWORD_RECOVERY') {
+          setIsResettingPassword(true);
+          setIsForgotPassword(false);
+        }
+        
+        // Redirect authenticated users to main page (but not during password reset)
+        if (session?.user && !isResettingPassword && event !== 'PASSWORD_RECOVERY') {
           setTimeout(() => {
             navigate('/');
           }, 0);
@@ -40,13 +48,13 @@ const AuthPage = () => {
       setSession(session);
       setUser(session?.user ?? null);
       
-      if (session?.user) {
+      if (session?.user && !isResettingPassword) {
         navigate('/');
       }
     });
 
     return () => subscription.unsubscribe();
-  }, [navigate]);
+  }, [navigate, isResettingPassword]);
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -110,7 +118,7 @@ const AuthPage = () => {
 
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/`,
+        redirectTo: `${window.location.origin}/auth`,
       });
 
       if (error) throw error;
@@ -121,6 +129,36 @@ const AuthPage = () => {
       });
       setIsForgotPassword(false);
       setEmail("");
+    } catch (error: any) {
+      toast({
+        title: "oops!",
+        description: error.message || "something went wrong",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleResetPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const { error } = await supabase.auth.updateUser({
+        password: newPassword
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "password updated!",
+        description: "you can now login with your new password",
+      });
+      
+      setIsResettingPassword(false);
+      setNewPassword('');
+      setIsLogin(true);
     } catch (error: any) {
       toast({
         title: "oops!",
@@ -178,8 +216,42 @@ const AuthPage = () => {
           </div>
         )}
 
-        {/* Forgot Password Form */}
-        {isForgotPassword ? (
+        {/* Reset Password Form */}
+        {isResettingPassword ? (
+          <form onSubmit={handleResetPassword} className="space-y-4">
+            <div className="space-y-2">
+              <label className="text-sm font-medium">new password</label>
+              <Input
+                type="password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                placeholder="min 6 characters"
+                className="font-mono"
+                minLength={6}
+                required
+              />
+            </div>
+
+            <Button 
+              type="submit" 
+              className="w-full" 
+              disabled={loading}
+            >
+              {loading ? (
+                <div className="flex items-center gap-2">
+                  <div className="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full" />
+                  updating password...
+                </div>
+              ) : (
+                "update password"
+              )}
+            </Button>
+
+            <div className="text-center text-sm text-muted-foreground">
+              <p>enter your new password</p>
+            </div>
+          </form>
+        ) : isForgotPassword ? (
           <form onSubmit={handleForgotPassword} className="space-y-4">
             <div className="space-y-2">
               <label className="text-sm font-medium">email</label>

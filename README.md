@@ -33,7 +33,7 @@ Splitting expenses with friends is now faster and more accurate using photo-base
 ## How It Works
 
 1. **Save Smarter**: Navigate to the "Goals" section to set and monitor your savings targets.
-2. **Spend Wiser**: Use the "Work-to-Worth" tool before making significant purchases to assess their real impact.
+2. **Spend Wiser**: Use the "Spend Smart" tool before making significant purchases to assess their real impact.
 3. **Split Seamlessly**: Upload a bill, assign items to friends, and let the app handle the rest.
 
 ## Target Audience

@@ -1,73 +1,54 @@
-# Welcome to your Lovable project
+# Squad Save Bot
 
-## Project info
+**Squad Save Bot** is a modern, user-friendly finance app designed to help individuals and groups manage money more intelligently. Whether you're saving for a personal goal, evaluating the real cost of a purchase, or splitting a bill with friends, Squad Save Bot simplifies the process with a focus on clarity and ease of use.
 
-**URL**: https://lovable.dev/projects/ecc80063-038f-4e01-9b4f-9cf7d7c11094
+## Features
 
-## How can I edit this code?
+### Goal-Based Saving
 
-There are several ways of editing your application.
+Set, track, and manage personal savings goals with structured progress monitoring.
 
-**Use Lovable**
+- Create multiple financial goals
+- Monitor progress with real-time updates
+- Stay on track with timely reminders
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/ecc80063-038f-4e01-9b4f-9cf7d7c11094) and start prompting.
+### Work-to-Worth Calculator
 
-Changes made via Lovable will be committed automatically to this repo.
+Understand the true value of your purchases in terms of your time.
 
-**Use your preferred IDE**
+- Input an item's price and your daily income
+- Automatically calculates the number of workdays needed to afford the item
+- Helps promote more mindful and informed spending habits
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Intelligent Bill Splitting
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+Splitting expenses with friends is now faster and more accurate using photo-based input and item assignment.
 
-Follow these steps:
+- Upload a photo of your bill or receipt
+- Automatic extraction of items using OCR technology
+- Add the names of the people involved
+- Assign items to individuals through an intuitive drag-and-drop interface
+- Automatic calculation of totals, including tax and tip
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## How It Works
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+1. **Save Smarter**: Navigate to the "Goals" section to set and monitor your savings targets.
+2. **Spend Wiser**: Use the "Work-to-Worth" tool before making significant purchases to assess their real impact.
+3. **Split Seamlessly**: Upload a bill, assign items to friends, and let the app handle the rest.
 
-# Step 3: Install the necessary dependencies.
-npm i
+## Technology Stack
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+- **Frontend**: React Native
+- **Backend**: Node.js with Express
+- **Database**: MongoDB
+- **OCR and Image Processing**: Tesseract.js / Google Cloud Vision API
 
-**Edit a file directly in GitHub**
+## Target Audience
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+- Students and roommates sharing expenses
+- Young professionals tracking personal budgets
+- Groups and teams managing shared costs
+- Anyone looking for a simplified approach to financial planning and expense sharing
 
-**Use GitHub Codespaces**
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/ecc80063-038f-4e01-9b4f-9cf7d7c11094) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+*Squad Save Bot — Practical finance tools for real-world collaboration.*

@@ -36,13 +36,6 @@ Splitting expenses with friends is now faster and more accurate using photo-base
 2. **Spend Wiser**: Use the "Work-to-Worth" tool before making significant purchases to assess their real impact.
 3. **Split Seamlessly**: Upload a bill, assign items to friends, and let the app handle the rest.
 
-## Technology Stack
-
-- **Frontend**: React Native
-- **Backend**: Node.js with Express
-- **Database**: MongoDB
-- **OCR and Image Processing**: Tesseract.js / Google Cloud Vision API
-
 ## Target Audience
 
 - Students and roommates sharing expenses

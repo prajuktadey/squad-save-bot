@@ -9,7 +9,16 @@ import { useToast } from '@/hooks/use-toast';
 import { User, Session } from '@supabase/supabase-js';
 import { z } from 'zod';
 
-const emailSchema = z.string().trim().email({ message: "please enter a valid email address" });
+const emailSchema = z.string()
+  .trim()
+  .email({ message: "please enter a valid email address" })
+  .refine((email) => {
+    const [local, domain] = email.split('@');
+    // Check if domain has at least one dot and both parts are reasonable length
+    return domain && domain.includes('.') && local.length >= 2 && 
+           domain.split('.').every(part => part.length >= 2);
+  }, { message: "please enter a valid email address" });
+
 const passwordSchema = z.string().min(6, { message: "password must be at least 6 characters" });
 
 const AuthPage = () => {

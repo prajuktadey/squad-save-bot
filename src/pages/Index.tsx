@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { PixelMascot } from '@/components/PixelMascot';
 import SavingsGoalEnhanced from '@/components/SavingsGoalEnhanced';
 import { SpendSmart } from '@/components/SpendSmart';
@@ -7,12 +8,13 @@ import { Button } from '@/components/ui/button';
 import { useGoals } from '@/hooks/useGoals';
 import { useTheme } from '@/hooks/useTheme';
 import UserStats from '@/components/UserStats';
-import { Moon, Sun } from 'lucide-react';
+import { Moon, Sun, Info } from 'lucide-react';
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState<'goals' | 'spend' | 'split'>('goals');
   const { goals } = useGoals();
   const { isDark, toggleTheme } = useTheme();
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-background">
@@ -27,15 +29,26 @@ const Index = () => {
                 <p className="text-sm text-muted-foreground">your gen z finance bestie</p>
               </div>
             </div>
-            <Button 
-              variant="outline" 
-              size="sm"
-              onClick={toggleTheme}
-              className="gap-2"
-            >
-              {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-              {isDark ? 'light' : 'dark'}
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => navigate('/about')}
+                className="gap-2"
+              >
+                <Info className="h-4 w-4" />
+                about
+              </Button>
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={toggleTheme}
+                className="gap-2"
+              >
+                {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                {isDark ? 'light' : 'dark'}
+              </Button>
+            </div>
           </div>
         </div>
       </header>

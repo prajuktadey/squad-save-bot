@@ -5,6 +5,9 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { z } from 'zod';
+
+const passwordSchema = z.string().min(6, { message: "password must be at least 6 characters" });
 
 const ResetPasswordPage = () => {
   const { toast } = useToast();
@@ -13,6 +16,7 @@ const ResetPasswordPage = () => {
 
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const [loading, setLoading] = useState(false);
   const [isRecoveryContext, setIsRecoveryContext] = useState(false);
 
@@ -79,17 +83,18 @@ const ResetPasswordPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (newPassword.length < 6) {
-      toast({
-        title: "password too short",
-        description: "minimum 6 characters",
-        variant: "destructive",
-      });
+    setPasswordError('');
+
+    // Validate password
+    const passwordValidation = passwordSchema.safeParse(newPassword);
+    if (!passwordValidation.success) {
+      setPasswordError(passwordValidation.error.errors[0].message);
       return;
     }
+
     if (newPassword !== confirmPassword) {
       toast({
-        title: "passwords don’t match",
+        title: "passwords don't match",
         description: "please confirm the same password",
         variant: "destructive",
       });
@@ -133,18 +138,24 @@ const ResetPasswordPage = () => {
 
         {isRecoveryContext ? (
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <label className="text-sm font-medium">new password</label>
-              <Input
-                type="password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                placeholder="min 6 characters"
-                className="font-mono"
-                minLength={6}
-                required
-              />
-            </div>
+          <div className="space-y-2">
+            <label className="text-sm font-medium">new password</label>
+            <Input
+              type="password"
+              value={newPassword}
+              onChange={(e) => {
+                setNewPassword(e.target.value);
+                setPasswordError('');
+              }}
+              placeholder="min 6 characters"
+              className="font-mono"
+              minLength={6}
+              required
+            />
+            {passwordError && (
+              <p className="text-sm text-destructive">{passwordError}</p>
+            )}
+          </div>
 
             <div className="space-y-2">
               <label className="text-sm font-medium">confirm password</label>

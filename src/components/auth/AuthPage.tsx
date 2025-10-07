@@ -7,6 +7,10 @@ import { Card } from '@/components/ui/card';
 import { PixelMascot } from '@/components/PixelMascot';
 import { useToast } from '@/hooks/use-toast';
 import { User, Session } from '@supabase/supabase-js';
+import { z } from 'zod';
+
+const emailSchema = z.string().trim().email({ message: "please enter a valid email address" });
+const passwordSchema = z.string().min(6, { message: "password must be at least 6 characters" });
 
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -18,6 +22,8 @@ const AuthPage = () => {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -58,6 +64,23 @@ const AuthPage = () => {
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
+    setEmailError('');
+    setPasswordError('');
+
+    // Validate email
+    const emailValidation = emailSchema.safeParse(email);
+    if (!emailValidation.success) {
+      setEmailError(emailValidation.error.errors[0].message);
+      return;
+    }
+
+    // Validate password
+    const passwordValidation = passwordSchema.safeParse(password);
+    if (!passwordValidation.success) {
+      setPasswordError(passwordValidation.error.errors[0].message);
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -114,6 +137,15 @@ const AuthPage = () => {
 
   const handleForgotPassword = async (e: React.FormEvent) => {
     e.preventDefault();
+    setEmailError('');
+
+    // Validate email
+    const emailValidation = emailSchema.safeParse(email);
+    if (!emailValidation.success) {
+      setEmailError(emailValidation.error.errors[0].message);
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -142,6 +174,15 @@ const AuthPage = () => {
 
   const handleResetPassword = async (e: React.FormEvent) => {
     e.preventDefault();
+    setPasswordError('');
+
+    // Validate password
+    const passwordValidation = passwordSchema.safeParse(newPassword);
+    if (!passwordValidation.success) {
+      setPasswordError(passwordValidation.error.errors[0].message);
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -224,12 +265,18 @@ const AuthPage = () => {
               <Input
                 type="password"
                 value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
+                onChange={(e) => {
+                  setNewPassword(e.target.value);
+                  setPasswordError('');
+                }}
                 placeholder="min 6 characters"
                 className="font-mono"
                 minLength={6}
                 required
               />
+              {passwordError && (
+                <p className="text-sm text-destructive">{passwordError}</p>
+              )}
             </div>
 
             <Button 
@@ -258,11 +305,17 @@ const AuthPage = () => {
               <Input
                 type="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setEmailError('');
+                }}
                 placeholder="your.email@example.com"
                 className="font-mono lowercase"
                 required
               />
+              {emailError && (
+                <p className="text-sm text-destructive">{emailError}</p>
+              )}
             </div>
 
             <Button 
@@ -304,11 +357,17 @@ const AuthPage = () => {
               <Input
                 type="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setEmailError('');
+                }}
                 placeholder="your.email@example.com"
                 className="font-mono lowercase"
                 required
               />
+              {emailError && (
+                <p className="text-sm text-destructive">{emailError}</p>
+              )}
             </div>
             
             <div className="space-y-2">
@@ -316,12 +375,18 @@ const AuthPage = () => {
               <Input
                 type="password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  setPasswordError('');
+                }}
                 placeholder="min 6 characters"
                 className="font-mono"
                 minLength={6}
                 required
               />
+              {passwordError && (
+                <p className="text-sm text-destructive">{passwordError}</p>
+              )}
             </div>
 
             {isLogin && (
